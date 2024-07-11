@@ -1,10 +1,9 @@
-import "../index.css"
+import React from 'react'
 
 const Notes = () => {
-  return <>
-  <div className="bg-white text-black dark:text-white dark:bg-black">
-    hello
-    </div></>;
-};
+  return (
+    <div>Notes</div>
+  )
+}
 
-export default Notes;
+export default Notes

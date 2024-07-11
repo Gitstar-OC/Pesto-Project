@@ -1,21 +1,19 @@
-import './index.css';
-import { Helmet } from "react-helmet-async";
-import {Notes, Navbar, Footer} from "./container/Exports"
+import {Navbar, Home, Welcome} from "./Container/Exports"
+import "./index.css"
+import {Route, Routes} from "react-router-dom"
 
 function App() {
-
   return (
     <>
-    <Helmet>
-        <title>Home - Notes App</title>
-      </Helmet>
-      <div>
-        <Navbar />
-        <Notes />
-        <Footer />
-      </div>
+    <Navbar /> 
+    <Routes>
+      <Route>
+      <Route exact path="/" element={<Welcome />} />
+      <Route exact path="/Home" element ={<Home />} /> 
+      </Route>
+    </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
