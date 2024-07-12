@@ -1,9 +1,15 @@
-import React from 'react'
+import { Notes, Title, Navbar } from "./Exports";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <>
+      <div className="bg-[#D9D9D9] dark:bg-[#222222]">
+        <Navbar /> 
+        <Title />
+        <Notes />
+      </div>
+    </>
+  );
+};
 
-export default Home
+export default Home;

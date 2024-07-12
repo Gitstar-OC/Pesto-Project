@@ -2,6 +2,8 @@
   @tailwind components;
   @tailwind utilities;
 
+
+
   @layer base {
     :root {
       --background: 0 0% 100%;
@@ -92,4 +94,20 @@
 }
 .WelcomeLink {
   @apply flex items-center space-x-2
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db; /* Equivalent to bg-gray-400 */
+}
+
+::-webkit-scrollbar-thumb.dark {
+  background-color: #ffc800;
 }

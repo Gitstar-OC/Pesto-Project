@@ -1,48 +1,78 @@
-import { Button } from "@/components/ui/button";
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { FaGithub, FaLongArrowAltRight } from "react-icons/fa";
-import { GiNotebook } from "react-icons/gi";
+import { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import Image1 from "../assets/Welcome.png"
 
 const Welcome = () => {
+  const [userEmail, setUserEmail] = useState("");
+  const navigate = useNavigate();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const data = { userEmail };
+
+    const url = "http://127.0.0.1:5000/create_user";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const responseData = await response.json();
+      if (response.status === 201 || response.status === 200) {
+        // Successful creation or user exists
+        navigate("/home");
+      } else {
+        alert(responseData.message);
+      }
+    } catch (error) {
+      alert("An error occurred: " + error.message);
+    }
+  };
+
   return (
-    <>
-      <Helmet>
-        <title>Notes App</title>
-      </Helmet>
-      <div className="bg-welcomeLight dark:bg-welcomeDark h-[80vh] bg-fixed bg-cover flex flex-col justify-center p-10 mx-20">
-        <div className="text-[96px] font-mr">
-          Welcome
-        </div>
-        <div className="flex justify-start space-x-16 mt-4">
-          <Button
-            variant="outline"
-            className="WelcomeButton"
-          >
-            <Link to="/Home" className="WelcomeLink">
-              <GiNotebook />
-              <span>Start Taking Notes</span>
-              <FaLongArrowAltRight/>
-            </Link>
-          </Button>
-          <Button
-            variant="outline"
-            className="WelcomeButton "
-          >
-            <a
-              href="https://github.com/Gitstar-OC/Pesto-Project"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="WelcomeLink"
-            >
-              <FaGithub />
-              <span>Github</span>
-            </a>
-          </Button>
+    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[775px] ">
+      <div className="flex items-center justify-center py-12">
+        <div className="mx-auto grid w-[350px] gap-6">
+          <div className="grid gap-2 text-center">
+            <h1 className="text-3xl font-bold">Sign In</h1>
+            <p className="text-balance text-muted-foreground">
+              Enter your email and get started!
+            </p>
+          </div>
+          <form onSubmit={onSubmit}>
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="email@example.com"
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <Link to="/home">
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+              </Link>
+            </div>
+          </form>
         </div>
       </div>
-    </>
+      <div className="dark:bg-welcomeDark bg-welcomeLight hidden lg:block bg-cover bg-fixed h-[100vh]">
+        <img src={Image1} className="h-full" alt="Welcome Background" />
+      </div>
+    </div>
   );
-};
+}
 
 export default Welcome;

@@ -5,7 +5,6 @@ import {Route, Routes} from "react-router-dom"
 function App() {
   return (
     <>
-    <Navbar /> 
     <Routes>
       <Route>
       <Route exact path="/" element={<Welcome />} />
