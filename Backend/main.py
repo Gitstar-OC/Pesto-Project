@@ -53,33 +53,33 @@ def create_note():
 
 
 
-# @app.route("/update_note/<int:note_id>", methods=["PATCH"])
-# def update_note(note_id):
-#     note = Note.query.get(note_id)
+@app.route("/update_note/<int:note_id>", methods=["PATCH"])
+def update_note(note_id):
+    note = Note.query.get(note_id)
 
-#     if not note:
-#         return jsonify({"message": "Note not found"}), 404
+    if not note:
+        return jsonify({"message": "Note not found"}), 404
 
-#     data = request.json
-#     note.note_title = data.get("noteTitle", note.note_title)
-#     note.note_description = data.get("noteDescription", note.note_description)
-#     note.note_status = data.get("noteStatus", note.note_status)
+    data = request.json
+    note.note_title = data.get("noteTitle", note.note_title)
+    note.note_description = data.get("noteDescription", note.note_description)
+    note.note_status = data.get("noteStatus", note.note_status)
 
-#     db.session.commit()
+    db.session.commit()
 
-#     return jsonify({"message": "Note updated."}), 200
+    return jsonify({"message": "Note updated."}), 200
 
-# @app.route("/delete_note/<int:note_id>", methods=["DELETE"])
-# def delete_note(note_id):
-#     note = Note.query.get(note_id)
+@app.route("/delete_note/<int:note_id>", methods=["DELETE"])
+def delete_note(note_id):
+    note = Note.query.get(note_id)
 
-#     if not note:
-#         return jsonify({"message": "Note not found"}), 404
+    if not note:
+        return jsonify({"message": "Note not found"}), 404
 
-#     db.session.delete(note)
-#     db.session.commit()
+    db.session.delete(note)
+    db.session.commit()
 
-#     return jsonify({"message": "Note deleted!"}), 200
+    return jsonify({"message": "Note deleted!"}), 200
 
 if __name__ == "__main__":
     with app.app_context():

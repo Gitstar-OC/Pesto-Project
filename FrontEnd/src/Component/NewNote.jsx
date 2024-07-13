@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Status } from "./Exports";
 import { FaPlus } from "react-icons/fa6";
 
@@ -20,15 +20,20 @@ import {
   DrawerTrigger,
 } from "../components/ui/drawer";
 
-const NewNote = ({ existingNote = {}, updateCallback }) => {
-  const [open, setOpen] = useState(false);
-  const isDesktop = useMediaQuery("");
+const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
+  const [noteTitle, setNoteTitle] = useState("");
+  const [noteDescription, setNoteDescription] = useState("");
+  const [noteStatus, setNoteStatus] = useState("");
 
-  const [noteTitle, setNoteTitle] = useState(existingNote.noteTilte || "");
-  const [noteDescription, setNoteDescription] = useState( existingNote.noteDescription || ""  );
-  const [noteStatus, setNoteStatus] = useState(   existingNote.status || ""  );
+  useEffect(() => {
+    if (existingNote) {
+      setNoteTitle(existingNote.noteTitle || "");
+      setNoteDescription(existingNote.noteDescription || "");
+      setNoteStatus(existingNote.status || "");
+    }
+  }, [existingNote]);
 
-  const updating = Object.entries(existingNote).length !== 0
+  const updating = Object.entries(existingNote).length !== 0;
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -38,9 +43,9 @@ const NewNote = ({ existingNote = {}, updateCallback }) => {
       noteStatus,
     };
 
-    const url = "http://127.0.0.1:5000/" + (updating ? `update_note/$(existingNote.id)` : "create_contact");
+    const url = "http://127.0.0.1:5000/" + (updating ? `update_note/${existingNote.noteId}` : "create_note");
     const options = {
-      method: updating ? "PATCH": "POST",
+      method: updating ? "PATCH" : "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -51,7 +56,8 @@ const NewNote = ({ existingNote = {}, updateCallback }) => {
       const data = await response.json();
       alert(data.message);
     } else {
-      updateCallback;
+      updateCallback();
+      setIsOpen(false); // Close the modal after update
     }
   };
 
@@ -87,65 +93,54 @@ const NewNote = ({ existingNote = {}, updateCallback }) => {
         <Button variant="outline">Cancel</Button>
       </DialogClose>
       <DialogClose asChild>
-        <Button type="submit">`{updating ? "Update" : "Create"} Note`</Button>
+        <Button type="submit">{updating ? "Update" : "Create"} Note</Button>
       </DialogClose>
     </DrawerFooter>
   );
 
+  const isDesktop = useMediaQuery("");
+
   if (isDesktop) {
     return (
       <>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 p-8  min-h-[20rem]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 p-8 min-h-[20rem]">
           <div className="border-2 border-black dark:border-white rounded-[25px] p-2">
-          <div className="bg-[#D9D9D9] dark:bg-[#222222] rounded-t-[20px] w-full text-center py-1 text-[20px] font-bold font-mr ">
-            Create New Task
-          </div>
-          <Dialog open={open} onOpenChange={setOpen} className="">
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="text-[80px] p-[6vw] min-h-[250px] rounded-b-[20px] rounded-t-none  mt-2"
-              >
-                <FaPlus />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <form onSubmit={onSubmit}>
-                {formContent}
-                {formFooter}
-              </form>
-            </DialogContent>
-          </Dialog>
+            <div>
+              <div className="bg-[#D9D9D9] dark:bg-[#222222] rounded-t-[20px] w-full text-center py-1 text-[20px] font-bold font-mr ">
+                <FaPlus onClick={() => setIsOpen(true)} />
+              </div>
+            </div>
           </div>
         </div>
+
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogContent className="max-w-[900px]">
+            <form onSubmit={onSubmit}>
+              {formContent}
+              {formFooter}
+            </form>
+          </DialogContent>
+        </Dialog>
       </>
     );
+  } else {
+    return (
+      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+        <DrawerTrigger asChild>
+          <Button className="m-2">
+            <FaPlus />
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <form onSubmit={onSubmit}>
+            {formContent}
+            {formFooter}
+          </form>
+        </DrawerContent>
+      </Drawer>
+    );
   }
-
-  return (
-    <>
-     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 p-8  min-h-[20rem]">
-          <div className="border-2 border-black dark:border-white rounded-[25px] p-2">
-          <div className="bg-[#D9D9D9] dark:bg-[#222222] rounded-t-[20px] w-full text-center py-1 text-[20px] font-bold font-mr ">
-            Create New Task
-          </div>
-          <Drawer open={open} onOpenChange={setOpen} className="">
-            <DrawerTrigger asChild>
-              <Button variant="outline" className="mt-4 ml-4">
-                <FaPlus />
-              </Button>
-            </DrawerTrigger>
-            <DrawerContent>
-              <form onSubmit={onSubmit}>
-                {formContent}
-                {formFooter}
-              </form>
-            </DrawerContent>
-          </Drawer>
-        </div>
-      </div>
-    </>
-  );
 };
 
 export default NewNote;
+

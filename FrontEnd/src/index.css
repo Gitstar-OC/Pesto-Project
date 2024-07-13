@@ -66,8 +66,9 @@
       @apply border-border;
     }
     body {
-      @apply bg-background text-foreground;
+      @apply bg-[#D9D9D9] dark:bg-[#222222] text-foreground;
     }
+
   }
 
   @font-face {
