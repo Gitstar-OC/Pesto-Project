@@ -1,4 +1,4 @@
-import {Navbar, Home, Welcome} from "./Container/Exports"
+import { Home, Welcome} from "./container/Exports"
 import "./index.css"
 import {Route, Routes} from "react-router-dom"
 

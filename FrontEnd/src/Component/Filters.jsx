@@ -63,7 +63,7 @@ const Filters = () => {
     return (
       <Popover open={open} onOpenChange={setOpen} className="">
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[150px] justify-start mt-10 ml-16">
+          <Button variant="outline" className="w-[150px] justify-start mt-10 ml-16 mr-10">
             {selectedStatus ? selectedStatus.label : "Show All"}
           </Button>
         </PopoverTrigger>

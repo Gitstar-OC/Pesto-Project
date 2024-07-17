@@ -34,11 +34,11 @@ const Avatar = () => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <div className="NavIcon"  onClick={handleAvatarClick}>
+            <div className=""  onClick={handleAvatarClick}>
               <img 
                 src={AvatarImages[currentAvatarIndex].image} 
                 alt={AvatarImages[currentAvatarIndex].name}
-                className="avatar-image"
+                className="h-[35px] w-[35px]"
               />
             </div>
           </TooltipTrigger>

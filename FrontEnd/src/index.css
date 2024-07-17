@@ -87,7 +87,7 @@
   }
 
 .NavIcon {
-  @apply w-[35px] h-[32px]
+  @apply w-[30px] h-[25px]
 }
 
 .WelcomeButton {

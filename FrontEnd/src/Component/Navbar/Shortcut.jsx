@@ -30,8 +30,9 @@ export default function Shortcut()  {
 
   return (
     <>
-      <p onClick={setOpen} className="text-sm text-muted-foreground bg-[#D9D9D9] dark:bg-[#222222] rounded-lg ml-1  cursor-pointer">
-        <span className="ml-2 font-ml ">
+    <div>
+      <p onClick={setOpen} className="text-sm text-muted-foreground bg-[#D9D9D9] dark:bg-[#222222] rounded-lg ml-1  cursor-pointer mt-[2px]">
+        <span className="m-2 font-ml ">
         Shortcut{" "}
         </span>
         <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded  px-1.5 font-ml text-[24px] font-medium text-gray-900 dark:text-gray-300 opacity-100 mt-[6px] mb-1">
@@ -91,6 +92,7 @@ export default function Shortcut()  {
             </CommandGroup>
         </CommandList>
       </CommandDialog>
+      </div>
     </>
   )
 }

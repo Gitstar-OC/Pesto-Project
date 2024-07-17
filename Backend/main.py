@@ -17,7 +17,7 @@ def create_user():
 
     existing_user = User.query.filter_by(user_email=user_email).first()
 
-    if existing_user:
+    if (existing_user):
         return jsonify({"message": "User already exists", "user": existing_user.to_json()}), 200
 
     new_user = User(user_email=user_email)
@@ -37,12 +37,9 @@ def create_note():
     status = request.json.get("noteStatus")
 
     if not note_title:
-        return (
-            jsonify({"message": "You must include the note title, and status"}),
-            400,
-        )
+        return jsonify({"message": "You must include the note title, and status"}), 400
 
-    new_note = Note( note_title=note_title, note_description=note_description, note_status=status)
+    new_note = Note(note_title=note_title, note_description=note_description, note_status=status)
     try:
         db.session.add(new_note)
         db.session.commit()
@@ -50,8 +47,6 @@ def create_note():
         return jsonify({"message": str(e)}), 400
 
     return jsonify({"message": "Note Created!"}), 201
-
-
 
 @app.route("/update_note/<int:note_id>", methods=["PATCH"])
 def update_note(note_id):
@@ -80,6 +75,18 @@ def delete_note(note_id):
     db.session.commit()
 
     return jsonify({"message": "Note deleted!"}), 200
+
+@app.route("/delete_user/<int:user_id>", methods=["DELETE"])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({"message": "User deleted!"}), 200
 
 if __name__ == "__main__":
     with app.app_context():

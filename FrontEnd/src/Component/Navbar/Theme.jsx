@@ -1,7 +1,8 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { MdOutlineWbSunny } from "react-icons/md";
-import { BsMoonStars } from "react-icons/bs";
+// import { BsMoonStars } from "react-icons/bs";
 import { useState, useEffect } from "react";
+import { FiMoon } from "react-icons/fi";
 
 const Theme = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -45,7 +46,7 @@ const Theme = () => {
               {theme === "light" ? (
                 <MdOutlineWbSunny className="NavIcon" />
               ) : (
-                <BsMoonStars className="w-[30px] h-[30px] mt-[0.5px]" />
+                <FiMoon className="NavIcon" />
               )}
             </div>
           </TooltipTrigger>

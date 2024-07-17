@@ -29,7 +29,7 @@ const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
     if (existingNote) {
       setNoteTitle(existingNote.noteTitle || "");
       setNoteDescription(existingNote.noteDescription || "");
-      setNoteStatus(existingNote.status || "");
+      setNoteStatus(existingNote.noteStatus || "");
     }
   }, [existingNote]);
 
@@ -43,7 +43,9 @@ const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
       noteStatus,
     };
 
-    const url = "http://127.0.0.1:5000/" + (updating ? `update_note/${existingNote.noteId}` : "create_note");
+    const url =
+      "http://127.0.0.1:5000/" +
+      (updating ? `update_note/${existingNote.noteId}` : "create_note");
     const options = {
       method: updating ? "PATCH" : "POST",
       headers: {
@@ -103,13 +105,14 @@ const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
   if (isDesktop) {
     return (
       <>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 p-8 min-h-[20rem]">
-          <div className="border-2 border-black dark:border-white rounded-[25px] p-2">
-            <div>
-              <div className="bg-[#D9D9D9] dark:bg-[#222222] rounded-t-[20px] w-full text-center py-1 text-[20px] font-bold font-mr ">
+        <div className="flex flex-wrap flex-1 mt-4 ml-16 mr-10"> {/***/}
+          <div className="border-2 border-black dark:border-white rounded-[25px] p-2 flex items-center justify-between">
+            <span>Create New Note</span>
+            <span>
+              <div className="bg-[#D9D9D9] dark:bg-[#222222] rounded-r-[20px] w-full text-center py-1 text-[20px] font-bold font-mr hover:cursor-pointer ml-1">
                 <FaPlus onClick={() => setIsOpen(true)} />
               </div>
-            </div>
+            </span>
           </div>
         </div>
 
@@ -125,22 +128,28 @@ const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
     );
   } else {
     return (
-      <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerTrigger asChild>
-          <Button className="m-2">
-            <FaPlus />
-          </Button>
-        </DrawerTrigger>
-        <DrawerContent>
-          <form onSubmit={onSubmit}>
-            {formContent}
-            {formFooter}
-          </form>
-        </DrawerContent>
-      </Drawer>
+      <>
+        <div className="">
+          <div className="border-2 border-black dark:border-white rounded-[25px] p-2 flex items-center justify-between">
+            <span>Create New Note</span>
+            <span>
+              <div className="bg-[#D9D9D9] dark:bg-[#222222] rounded-r-[20px] w-full text-center py-1 text-[20px] font-bold font-mr hover:cursor-pointer ml-1">
+                <FaPlus onClick={() => setIsOpen(true)} />
+              </div>
+            </span>
+          </div>
+        </div>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogContent>
+            <form onSubmit={onSubmit}>
+              {formContent}
+              {formFooter}
+            </form>
+          </DialogContent>
+        </Dialog>
+      </>
     );
   }
 };
 
 export default NewNote;
-
