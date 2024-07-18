@@ -1,34 +1,24 @@
-from flask import request, jsonify
+from flask import Flask, send_from_directory, jsonify, request
 from config import app, db
 from models import Note, User
+import os
 
+app = Flask(__name__, static_folder='../frontend/dist')
+
+@app.route('/')
+def serve_frontend():
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory(app.static_folder, path)
+
+# Your existing API routes
 @app.route("/notes", methods=["GET"])
 def get_notes():
     Notes = Note.query.all()
     json_notes = list(map(lambda x: x.to_json(), Notes))
     return jsonify({"notes": json_notes})
-
-# @app.route("/create_user", methods=["POST"])
-# def create_user():
-#     user_email = request.json.get("userEmail")
-
-#     if not user_email:
-#         return jsonify({"message": "Email is required"}), 400
-
-#     existing_user = User.query.filter_by(user_email=user_email).first()
-
-#     if (existing_user):
-#         return jsonify({"message": "User already exists", "user": existing_user.to_json()}), 200
-
-#     new_user = User(user_email=user_email)
-
-#     try:
-#         db.session.add(new_user)
-#         db.session.commit()
-#     except Exception as e:
-#         return jsonify({"message": str(e)}), 400
-
-#     return jsonify({"message": "User Created!", "user": new_user.to_json()}), 201
 
 @app.route("/create_note", methods=["POST"])
 def create_note():
@@ -75,18 +65,6 @@ def delete_note(note_id):
     db.session.commit()
 
     return jsonify({"message": "Note deleted!"}), 200
-
-# @app.route("/delete_user/<int:user_id>", methods=["DELETE"])
-# def delete_user(user_id):
-#     user = User.query.get(user_id)
-
-#     if not user:
-#         return jsonify({"message": "User not found"}), 404
-
-#     db.session.delete(user)
-#     db.session.commit()
-
-#     return jsonify({"message": "User deleted!"}), 200
 
 if __name__ == "__main__":
     with app.app_context():
