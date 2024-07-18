@@ -77,7 +77,7 @@ const Filters = () => {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="w-[150px] justify-start mt-4 ml-4">
+        <Button variant="outline" className="font-mr w-[150px] justify-start mt-4 ml-4">
           {selectedStatus ? selectedStatus.label : "Show All"}
         </Button>
       </DrawerTrigger>

@@ -105,19 +105,20 @@ const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
   if (isDesktop) {
     return (
       <>
-        <div className="flex flex-wrap flex-1 mt-4 ml-16 mr-10"> {/***/}
-          <div className="border-2 border-black dark:border-white rounded-[25px] p-2 flex items-center justify-between">
-            <span>Create New Note</span>
-            <span>
-              <div className="bg-[#D9D9D9] dark:bg-[#222222] rounded-r-[20px] w-full text-center py-1 text-[20px] font-bold font-mr hover:cursor-pointer ml-1">
-                <FaPlus onClick={() => setIsOpen(true)} />
-              </div>
-            </span>
-          </div>
+        <div className="flex flex-wrap flex-1 mt-10">
+          <span>
+            <Button
+              className="flex p-1 px-4"
+              onClick={() => setIsOpen(true)}
+              variant="secondary"
+            >
+              Create New Note <FaPlus className="ml-1" />{" "}
+            </Button>
+          </span>
         </div>
 
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogContent className="max-w-[900px]">
+          <DialogContent className="max-w-[400px]">
             <form onSubmit={onSubmit}>
               {formContent}
               {formFooter}
@@ -129,15 +130,16 @@ const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
   } else {
     return (
       <>
-        <div className="">
-          <div className="border-2 border-black dark:border-white rounded-[25px] p-2 flex items-center justify-between">
-            <span>Create New Note</span>
-            <span>
-              <div className="bg-[#D9D9D9] dark:bg-[#222222] rounded-r-[20px] w-full text-center py-1 text-[20px] font-bold font-mr hover:cursor-pointer ml-1">
-                <FaPlus onClick={() => setIsOpen(true)} />
-              </div>
-            </span>
-          </div>
+        <div className="flex flex-wrap flex-1 mt-10">
+          <span>
+            <Button
+              className="flex p-1 px-4"
+              onClick={() => setIsOpen(true)}
+              variant="secondary"
+            >
+              Create New Note <FaPlus className="ml-1" />{" "}
+            </Button>
+          </span>
         </div>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent>

@@ -8,34 +8,6 @@ import { Helmet } from 'react-helmet-async';
 
 const Welcome = () => {
   const [userEmail, setUserEmail] = useState("");
-  const navigate = useNavigate();
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const data = { userEmail };
-
-    const url = "http://127.0.0.1:5000/create_user";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    };
-
-    try {
-      const response = await fetch(url, options);
-      const responseData = await response.json();
-      if (response.status === 201 || response.status === 200) {
-        // Successful creation or user exists
-        navigate("/home");
-      } else {
-        alert(responseData.message);
-      }
-    } catch (error) {
-      alert("An error occurred: " + error.message);
-    }
-  };
 
   return (
     <>
@@ -51,7 +23,7 @@ const Welcome = () => {
               Enter your email and get started!
             </p>
           </div>
-          <form onSubmit={onSubmit}>
+          <form>
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
