@@ -3,7 +3,8 @@ from config import app, db
 from models import Note, User
 import os
 
-app = Flask(__name__, static_folder='../frontend/dist')
+# This app creation is redundant since you are importing it from config
+# app = Flask(__name__, static_folder='../frontend/dist')
 
 @app.route('/')
 def serve_frontend():
@@ -16,20 +17,20 @@ def serve_static(path):
 # Your existing API routes
 @app.route("/notes", methods=["GET"])
 def get_notes():
-    Notes = Note.query.all()
-    json_notes = list(map(lambda x: x.to_json(), Notes))
+    notes = Note.query.all()
+    json_notes = list(map(lambda x: x.to_json(), notes))
     return jsonify({"notes": json_notes})
 
 @app.route("/create_note", methods=["POST"])
 def create_note():
     note_title = request.json.get("noteTitle")
     note_description = request.json.get("noteDescription")
-    status = request.json.get("noteStatus")
+    note_status = request.json.get("noteStatus")
 
-    if not note_title:
-        return jsonify({"message": "You must include the note title, and status"}), 400
+    if not note_title or not note_description or not note_status:
+        return jsonify({"message": "You must include the note title, note description and status"}), 400
 
-    new_note = Note(note_title=note_title, note_description=note_description, note_status=status)
+    new_note = Note(note_title=note_title, note_description=note_description, note_status=note_status)
     try:
         db.session.add(new_note)
         db.session.commit()
