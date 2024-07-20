@@ -3,9 +3,6 @@ from config import app, db
 from models import Note, User
 import os
 
-# This app creation is redundant since you are importing it from config
-# app = Flask(__name__, static_folder='../frontend/dist')
-
 @app.route('/')
 def serve_frontend():
     return send_from_directory(app.static_folder, 'index.html')
@@ -14,7 +11,6 @@ def serve_frontend():
 def serve_static(path):
     return send_from_directory(app.static_folder, path)
 
-# Your existing API routes
 @app.route("/notes", methods=["GET"])
 def get_notes():
     notes = Note.query.all()

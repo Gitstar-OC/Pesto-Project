@@ -105,7 +105,7 @@ const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
   if (isDesktop) {
     return (
       <>
-        <div className="flex flex-wrap flex-1 mt-10">
+        <div className="flex flex-wrap flex-1 mt-10 ml-16">
           <span>
             <Button
               className="flex p-1 px-4"
@@ -130,7 +130,7 @@ const NewNote = ({ existingNote = {}, updateCallback, isOpen, setIsOpen }) => {
   } else {
     return (
       <>
-        <div className="flex flex-wrap flex-1 mt-10">
+        <div className="flex flex-wrap flex-1 mt-4 ml-4">
           <span>
             <Button
               className="flex p-1 px-4"
